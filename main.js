@@ -1,0 +1,517 @@
+// 新しいカタチで名前を保存するもの
+// 可読性向上と編集のしやすさのために
+
+var repo_site = "Picture/";
+
+// 0. 名前の保存の容器
+let self_name01 = null;
+let self_name02 = null;
+let self_name03 = null;
+let other_name01 = null;
+let other_name02 = null;
+let other_name03 = null;
+
+//1. 名前の入力
+var survey_self_name = {
+  type: 'survey-text',
+  preamble: 'これから行う実験の課題で使用するために、ご自身の名前などを質問します。' +
+   '</br>ここで収集した名前については、実験の課題でのみ使用し、分析には使用致しません。',
+  questions: [
+    {prompt: "名字（姓）を<u>ひらがなで</u>入力してください（例：山田 太郎さんなら、やまだ）",name: 'name_up', required:'True'}, 
+    {prompt: "名前（名）を<u>ひらがなで</u>入力してください（例：山田 太郎さんなら、たろう）",  name: 'name_down', required:"True"},
+    {prompt: "イニシャルを<u>名.姓の順に大文字アルファベットで</u>入力してください（例：山田 太郎さんなら、T.Y）",  name: 'name_initial', required:"True"},
+  ],
+  button_label: "次へ",
+  on_finish: function(data){
+    self_name01 = JSON.parse(data.responses).name_up;
+    self_name02 = JSON.parse(data.responses).name_down;
+    self_name03 = JSON.parse(data.responses).name_initial;
+  }
+};
+
+// 2. 自分と遠いと思う名前を選択する
+var survey_other_name = {
+  type: 'survey-multi-choice',
+  questions: [
+    {
+      prompt: "あなたの姓と最も無関係だと思う名字を選択してください。", 
+      name: 'name_01', 
+      options: ['さとう', 'すずき', 'たかはし', 'たなか', 'いとう', 'わたなべ'], 
+      required: true
+    }, 
+    {
+      prompt: "あなたの名と最も無関係だと思う名前を選択してください。", 
+      name: 'name_02', 
+      options: ['まこと', 'しょうた', 'はると', 'かずこ', 'ようこ', 'みさき'], 
+      required: true
+    },
+    {
+      prompt: "あなたの名と最も無関係だと思う名前を選択してください。", 
+      name: 'name_03', 
+      options: ['きよし', 'だいすけ', 'れん', 'けいこ', 'あい', 'ひな'], 
+      required: true
+    }
+  ],
+  button_label_next: "次へ",
+  on_finish: function(data){
+    other_name01 = JSON.parse(data.responses).name_01;
+    other_name02 = JSON.parse(data.responses).name_02;
+    other_name03 = JSON.parse(data.responses).name_03;
+  }
+
+
+};
+
+
+
+// 3. 名前ありIAT（自己 + 好ましい言葉 / 他者 + 好ましくない言葉）の練習試行の教示文
+var instruction_nameIAT_prac01 = {
+  type: "html-keyboard-response",
+  stimulus:"<img src='" + repo_site + "good.jpg' width='60%'>"+
+  '<p style="text-align: center;">名前の入力へのご協力ありがとうございました。これから行う課題は、単語の分類課題です。下記の文章をよく確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「他者」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>まずは練習を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices: ["space"]
+};
+
+// 4. 名前ありIATの練習試行 （自己 + 好ましい言葉 / 他者 + 好ましくない言葉）
+var trial_nameIAT_prac01 = {
+  timeline:[
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください</p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ["自己","好ましい言葉"],
+      right_category_label: ["他者", "好ましくない言葉"],
+      response_ends_trial: true
+    }
+    ],  
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "苦しい", stim_key_association: "right"},
+    {stimulus: "痛い", stim_key_association: "right"},
+    {stimulus: "恥ずかしい", stim_key_association: "right"},
+    {stimulus: "汚い", stim_key_association: "right"},
+    {stimulus: "醜い", stim_key_association: "right"},
+
+    {stimulus: "嬉しい", stim_key_association: "left"},
+    {stimulus: "楽しい", stim_key_association: "left"},
+    {stimulus: "幸せ", stim_key_association: "left"},
+    {stimulus: "温かい", stim_key_association: "left"},
+    {stimulus: "心地よい", stim_key_association: "left"},
+
+
+    {stimulus: function(){ return self_name01; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name02; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name03; }, stim_key_association: "left"},
+
+    {stimulus: function(){ return other_name01;}, stim_key_association: "right"},
+    {stimulus: function(){ return other_name02; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name03; }, stim_key_association: "right"},
+    ],
+
+  randomize_order: true,
+  post_trial_gap: 50,
+  repetitions: 1
+};
+
+
+// 5. 名前ありIATの休憩（自己 + 好ましい言葉 / 他者 + 好ましくない言葉）：本番前
+var instruction_nameIAT_main01 = {
+  type: "html-keyboard-response",
+  stimulus:"<img src='" + repo_site + "good.jpg' width='60%'>"+
+  '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「他者」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>それでは本番を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices: ["space"]
+};
+
+// 6. 名前ありIATの本番試行 （自己 + 好ましい言葉 / 他者 + 好ましくない言葉）
+var trial_nameIAT_main01 = {
+  timeline:[
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください</p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ["自己","好ましい言葉"],
+      right_category_label: ["他者", "好ましくない言葉"],
+      response_ends_trial: true
+    }
+    ],  
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "苦しい", stim_key_association: "right"},
+    {stimulus: "痛い", stim_key_association: "right"},
+    {stimulus: "恥ずかしい", stim_key_association: "right"},
+    {stimulus: "汚い", stim_key_association: "right"},
+    {stimulus: "醜い", stim_key_association: "right"},
+
+    {stimulus: "嬉しい", stim_key_association: "left"},
+    {stimulus: "楽しい", stim_key_association: "left"},
+    {stimulus: "幸せ", stim_key_association: "left"},
+    {stimulus: "温かい", stim_key_association: "left"},
+    {stimulus: "心地よい", stim_key_association: "left"},
+
+    {stimulus: function(){ return self_name01; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name02; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name03; }, stim_key_association: "left"},
+
+    {stimulus: function(){ return other_name01; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name02; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name03; }, stim_key_association: "right"},
+    
+    ],
+  randomize_order: false,
+  post_trial_gap: 50,
+  repetitions: 1
+};
+
+
+// 7. （入れ替え）名前ありIAT（自己 + 好ましくない言葉 / 他者 + 好ましい言葉）の練習試行の教示文
+var instruction_nameIAT_prac02 = {
+  type: "html-keyboard-response",
+  stimulus:"<img src='" + repo_site + "change.jpg' width='60%'>"+
+  '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類する基準が先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「他者」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>まずは練習を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices: ["space"]
+};
+
+// 8. 名前ありIATの練習試行 （自己 + 好ましくない言葉 / 他者 + 好ましい言葉）
+
+var trial_nameIAT_prac02 = {
+  timeline:[
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください/p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ["自己", "好ましくない言葉"],
+      right_category_label: ["他者","好ましい言葉"],
+      response_ends_trial: true
+    }
+    ],  
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "苦しい", stim_key_association: "left"},
+    {stimulus: "痛い", stim_key_association: "left"},
+    {stimulus: "恥ずかしい", stim_key_association: "left"},
+    {stimulus: "汚い", stim_key_association: "left"},
+    {stimulus: "醜い", stim_key_association: "left"},
+
+    {stimulus: "嬉しい", stim_key_association: "right"},
+    {stimulus: "楽しい", stim_key_association: "right"},
+    {stimulus: "幸せ", stim_key_association: "right"},
+    {stimulus: "温かい", stim_key_association: "right"},
+    {stimulus: "心地よい", stim_key_association: "right"},
+
+
+    {stimulus: function(){ return self_name01; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name02; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name03; }, stim_key_association: "left"},
+
+    {stimulus: function(){ return other_name01; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name02; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name03; }, stim_key_association: "right"},
+    ],
+  randomize_order: true,
+  post_trial_gap: 50,
+  repetitions: 1
+};
+
+// 9. 名前ありIATの休憩（自己 + 好ましくない言葉 / 他者 + 好ましい言葉）：本番前
+var instruction_nameIAT_main02 = {
+  type: "html-keyboard-response",
+  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「他者」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>それでは本番を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices: ["space"]
+};
+
+// 10. 名前ありIATの本番試行 （自己 + 好ましくない言葉 / 他者 + 好ましい言葉）
+var trial_nameIAT_main02 = {
+  timeline:[
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください</p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ["好ましい", "他者"],
+      right_category_label: ["好ましくない", "自分"],
+      response_ends_trial: true
+    }
+    ],  
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "苦しい", stim_key_association: "left"},
+    {stimulus: "痛い", stim_key_association: "left"},
+    {stimulus: "恥ずかしい", stim_key_association: "left"},
+    {stimulus: "汚い", stim_key_association: "left"},
+    {stimulus: "醜い", stim_key_association: "left"},
+
+    {stimulus: "嬉しい", stim_key_association: "right"},
+    {stimulus: "楽しい", stim_key_association: "right"},
+    {stimulus: "幸せ", stim_key_association: "right"},
+    {stimulus: "温かい", stim_key_association: "right"},
+    {stimulus: "心地よい", stim_key_association: "right"},
+
+    {stimulus: function(){ return self_name01; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name02; }, stim_key_association: "left"},
+    {stimulus: function(){ return self_name03; }, stim_key_association: "left"},
+
+    {stimulus: function(){ return other_name01; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name02; }, stim_key_association: "right"},
+    {stimulus: function(){ return other_name03; }, stim_key_association: "right"},
+    
+    ],
+  randomize_order: false,
+  post_trial_gap: 50,
+  repetitions: 1
+};
+
+// 11. 名前ありIATの終了メッセージ
+var endmessage_nameIAT = {
+  type: 'instructions',
+  pages: ["<p>この課題はこれで終了になります</p>"+
+  "<p>「次へ」をクリックして次へ進んでください</p>"
+  ],
+  allow_backward: false,
+  show_clickable_nav: true,
+  button_label_next: "次へ"
+  
+};
+
+// 12. 代名詞IATの本番試行（私 + 好ましい言葉 / 私でない + 好ましくない言葉）の教示
+var instruction_pronounIAT_main01 = {
+  type: 'html-keyboard-response',
+  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類するカテゴリーが先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「私でない」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>それでは本番を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices:[' ']
+};
+
+
+
+//13. 代名詞IATの本番試行（私 + 好ましい言葉 / 私でない + 好ましくない言葉）
+
+var trial_pronounIAT_main01 = {
+  timeline: [
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">×</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください</p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ['私', '好ましい言葉'],
+      right_category_label: ['私でない', '好ましくない言葉'],
+      response_ends_trial: true,
+    }
+  ],
+
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "私", stim_key_association: "left"},
+    {stimulus: "私の", stim_key_association: "left"},
+    {stimulus: "私に", stim_key_association: "left"},
+    {stimulus: "自分の", stim_key_association: "left"},
+    {stimulus: "自分に", stim_key_association: "left"},
+
+    {stimulus: "彼らは", stim_key_association: "right"},
+    {stimulus: "彼らの", stim_key_association: "right"},
+    {stimulus: "他人の", stim_key_association: "right"},
+    {stimulus: "他の人", stim_key_association: "right"},
+    {stimulus: "他人は", stim_key_association: "right"},
+
+    {stimulus: "温かい", stim_key_association: "left"},
+    {stimulus: "幸せ", stim_key_association: "left"},
+    {stimulus: "楽しい", stim_key_association: "left"},
+    {stimulus: "嬉しい", stim_key_association: "left"},
+    {stimulus: "心地よい", stim_key_association: "left"},
+
+    {stimulus: "苦しい", stim_key_association: "right"},
+    {stimulus: "醜い", stim_key_association: "right"},
+    {stimulus: "痛い", stim_key_association: "right"},
+    {stimulus: "恥ずかしい", stim_key_association: "right"},
+    {stimulus: "汚い", stim_key_association: "right"}
+
+    
+  ],
+  randomize_order: true,
+  post_trial_gap: 50,
+  repetitions: 2
+};
+
+
+//14.　（入れ替え）代名詞IATの本番試行（私 + 好ましくない言葉 / 私でない + 好ましい言葉）の教示
+var instruction_pronounIAT_main02 = {
+  type: 'html-keyboard-response',
+  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類する基準が先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
+    '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「私でない」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+  "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
+ '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
+ '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
+ 'そのために、左右の中指をEとIのキーの上にあらかじめのせておいてください。<br>'+
+ "<br>それでは本番を行います。準備がよろしければ、課題を開始してください。</p>" +
+ "<p style = 'color: red; font-size: 0.8em;'>スペースキーを押すと開始します</p>",
+  choices:[' '],
+};
+
+//15.　（入れ替え）代名詞IATの本番試行（私 + 好ましくない言葉 / 私でない + 好ましい言葉）
+var trial_pronounIAT_main02 = {
+  timeline: [
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">×</span>',
+      bottom_instructions: '<p>間違えるとバツが表示されるので、押したキーと反対のキーを押してください</p>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_key: 'E',
+      right_category_key: 'I',
+      left_category_label: ['私', '好ましくない言葉'],
+      right_category_label: ['私でない', '好ましい言葉'],
+      response_ends_trial: true,
+    }
+  ],
+
+  //IATで使う刺激
+  timeline_variables: [
+    {stimulus: "私", stim_key_association: "left"},
+    {stimulus: "私の", stim_key_association: "left"},
+    {stimulus: "私に", stim_key_association: "left"},
+    {stimulus: "自分の", stim_key_association: "left"},
+    {stimulus: "自分に", stim_key_association: "left"},
+
+    {stimulus: "彼らは", stim_key_association: "right"},
+    {stimulus: "彼らの", stim_key_association: "right"},
+    {stimulus: "他人の", stim_key_association: "right"},
+    {stimulus: "他の人", stim_key_association: "right"},
+    {stimulus: "他人は", stim_key_association: "right"},
+
+    {stimulus: "苦しい", stim_key_association: "left"},
+    {stimulus: "醜い", stim_key_association: "left"},
+    {stimulus: "痛い", stim_key_association: "left"},
+    {stimulus: "恥ずかしい", stim_key_association: "left"},
+    {stimulus: "汚い", stim_key_association: "left"},
+
+    {stimulus: "温かい", stim_key_association: "right"},
+    {stimulus: "幸せ", stim_key_association: "right"},
+    {stimulus: "楽しい", stim_key_association: "right"},
+    {stimulus: "嬉しい", stim_key_association: "right"},
+    {stimulus: "心地よい", stim_key_association: "right"}
+    
+  ],
+  randomize_order: true,  
+  post_trial_gap: 50,
+  repetitions: 2
+};
+
+
+
+
+// 16. IAT課題の終了メッセージ
+var endmessage = {
+    type: 'instructions',
+    pages: ["<p>この課題はこれで終了になります</p>"+"<p>「次へ」をクリックして次へ進んでください</p>"
+    ],
+    allow_backward: false,
+    show_clickable_nav: true,
+    button_label_next: "次へ"
+    
+};
+
+
+/* 実験の提示の順番 */
+var timeline = [];
+
+
+
+timeline.push({
+  type: 'fullscreen',
+  fullscreen_mode: true
+});
+timeline.push(survey_self_name);
+timeline.push(survey_other_name);
+timeline.push(instruction_nameIAT_prac01);
+timeline.push(trial_nameIAT_prac01);
+timeline.push(instruction_nameIAT_main01);
+timeline.push(trial_nameIAT_main01);
+timeline.push(instruction_nameIAT_prac02);
+timeline.push(trial_nameIAT_prac02);
+timeline.push(instruction_nameIAT_main02);
+timeline.push(trial_nameIAT_main02);
+timeline.push(instruction_pronounIAT_main01);
+timeline.push(trial_pronounIAT_main01);
+timeline.push(instruction_pronounIAT_main02);
+timeline.push(trial_pronounIAT_main02);
+
+
+
+timeline.push({
+  type: 'fullscreen',
+  fullscreen_mode: false
+});
+
+timeline.push(endmessage);
+
