@@ -350,8 +350,8 @@ var trial_nameIAT_main02 = {
       display_feedback: true,
       left_category_key: 'E',
       right_category_key: 'I',
-      left_category_label: ["自己", "好ましい言葉"],
-      right_category_label: ["他者", "好ましくない言葉"],
+      left_category_label: ["自己", "好ましくない言葉"],
+      right_category_label: ["他者", "好ましい言葉"],
       response_ends_trial: true
     }
     ],  
@@ -572,7 +572,7 @@ var instruction_pronounIAT_prac02 = {
   choices:[' ']
 };
 
-// 17. 代名詞IATの練習試行 （私+ 好ましくない言葉 / 私でない + 好ましい言葉）
+// 17. 代名詞IATの練習試行 （私 + 好ましくない言葉 / 私でない + 好ましい言葉）
 var trial_pronounIAT_prac02 = {
   timeline: [
     {
@@ -629,8 +629,8 @@ var instruction_pronounIAT_main02 = {
   type: 'html-keyboard-response',
   stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
-    '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
-  '<p><b>右上の「私でない」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
+    '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
+  '<p><b>右上の「私でない」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
   "左右のカテゴリーは固定で、中央の単語が変わります。<br>"+
  '間違えると×（バツ）が中央に表示されるので、押したキーと反対のキーを押してください。<br>'+
  '単語が表示されたら、<u>できるだけ速く正確に</u>回答してください。<br>'+
