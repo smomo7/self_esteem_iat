@@ -1,8 +1,8 @@
 // 新しいカタチで名前を保存するもの
 // 可読性向上と編集のしやすさのために
 
-// 下のpictureを「自分のgithubのURL/Pictures」に変える
-var repo_site = "Picture/";
+// 下のpictureを「自分のgithubのURL/Picture」に変える
+var repo_site = "https://smomo7.github.io/self_esteem_iat/Picture/";
 
 
 //1. 名前の入力
@@ -78,7 +78,7 @@ var survey_other_name03 = {
 // 3. 名前ありIAT（自己 + 好ましい言葉 / 他者 + 好ましくない言葉）の練習試行の教示文
 var instruction_nameIAT_prac01 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "good.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "name_good.png' width='60%'>"+
   '<p style="text-align: center;">名前の入力へのご協力ありがとうございました。これから行う課題は、単語の分類課題です。下記の文章をよく確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「他者」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -160,7 +160,7 @@ var trial_nameIAT_prac01 = {
 // 5. 名前ありIATの休憩（自己 + 好ましい言葉 / 他者 + 好ましくない言葉）：本番前
 var instruction_nameIAT_main01 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "good.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "name_good.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「他者」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -242,7 +242,7 @@ var trial_nameIAT_main01 = {
 // 7. （入れ替え）名前ありIAT（自己 + 好ましくない言葉 / 他者 + 好ましい言葉）の練習試行の教示文
 var instruction_nameIAT_prac02 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "change.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "name_change.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類する基準が先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「他者」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -324,7 +324,7 @@ var trial_nameIAT_prac02 = {
 // 9. 名前ありIATの休憩（自己 + 好ましくない言葉 / 他者 + 好ましい言葉）：本番前
 var instruction_nameIAT_main02 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "name_bad.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[自己」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「他者」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -418,7 +418,7 @@ var endmessage_nameIAT = {
 // 12. 代名詞IAT（私 + 好ましい言葉 / 私でない + 好ましくない言葉）の練習試行の教示文
 var instruction_pronounIAT_prac01 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "pronoun_good.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類するカテゴリーが先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「私でない」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -487,7 +487,7 @@ var trial_pronounIAT_prac01 = {
 // 14. 代名詞IATの休憩（私 + 好ましい言葉 / 私でない + 好ましくない言葉）：本番前
 var instruction_pronounIAT_main01 = {
   type: 'html-keyboard-response',
-  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "pronoun_good.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましい言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「私でない」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -559,7 +559,7 @@ var trial_pronounIAT_main01 = {
 // 16. 代名詞IAT（私 + 好ましくない言葉 / 私でない + 好ましい言葉）の練習試行の教示文
 var instruction_pronounIAT_prac02 = {
   type: "html-keyboard-response",
-  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "pronoun_change.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。次の課題では<u>分類する基準が先ほどとは異なります</u>ので、下記の文章をよく確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「私でない」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
@@ -627,7 +627,7 @@ var trial_pronounIAT_prac02 = {
 //18.　（入れ替え）代名詞IATの休憩（私 + 好ましくない言葉 / 私でない + 好ましい言葉）：本番前
 var instruction_pronounIAT_main02 = {
   type: 'html-keyboard-response',
-  stimulus:"<img src='" + repo_site + "bad.jpg' width='60%'>"+
+  stimulus:"<img src='" + repo_site + "pronoun_bad.png' width='60%'>"+
   '<p style="text-align: center;">お疲れさまでした。続いて本番に参りますので、分類する基準を確認してください。</p><br>'+
     '<p>画面中央に表示される単語が、<b>左上の[私」または「好ましくない言葉」のカテゴリーに当てはまると思ったら「E」キー</b>を、</p>'+
   '<p><b>右上の「私でない」または「好ましい言葉」のカテゴリーに当てはまると思ったら「I」キー</b>を押してください。</p><br>' +
